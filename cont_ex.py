@@ -6,6 +6,8 @@ import sys
 import numpy as np
 import cv2 as cv
 import os
+import random
+from datetime import datetime
 
 import easygui
 import unicodedata
@@ -62,11 +64,46 @@ json_ktype = 'ktype'
 
 ktype_text = "kernel type(0-rhombus, 1-square, 2-plus)"
 
-cv.createTrackbar(ktype_text, settings_window, loaded[json_ktype], 2, nothing)
+# типы ядра
+ROMB = 0
+SQUARE = 1
+PLUS = 22
+RANDOM = 3
+
+cv.createTrackbar(ktype_text, settings_window, loaded[json_ktype], 3, nothing)
 
 
 def getKtype():
     return cv.getTrackbarPos(ktype_text, settings_window)
+
+
+randomApplied = 0
+savedRandom = []
+
+
+def makeRectsRandom(path):
+    global randomApplied
+    global savedRandom
+    if randomApplied:
+        return savedRandom
+
+    img = cv.imread(path)
+    random.seed(datetime.now())
+    amount = random.randint(10, 20)
+    rects = []
+    s = len(img)
+    for i in range(amount):
+        x1 = random.randint(100, s-100)
+        y1 = random.randint(100, s-100)
+        x2 = random.randint(15, 30)
+        y2 = random.randint(15, 30)
+        rect = ((x1, y1), (x2, y2), 0)
+        # rect = cv.rectangle(img, (10, 10), (20, 20), (0, 255, 0), 3)
+        # print("rect",rect)
+        rects.append(rect)
+    print("rects", rects)
+    savedRandom = rects
+    return rects
 
 
 # Показывать все прямоугольники(красный цвет)
@@ -102,17 +139,17 @@ def getShowGreen():
 json_min_s = 'minS'
 json_max_s = 'maxS'
 
-min_s_text = "minimum square(/ x0.1)"
+min_s_text = "minimum square(* x0.01)"
 max_s_text = "maximum square(* x0.1)"
 
 cv.createTrackbar(min_s_text,
-                  settings_window, loaded[json_min_s], 100, nothing)
+                  settings_window, loaded[json_min_s], 2000, nothing)
 cv.createTrackbar(max_s_text,
                   settings_window, loaded[json_max_s], 300, nothing)
 
 
 def getMinS():
-    return 0.1*cv.getTrackbarPos(min_s_text, settings_window)
+    return 0.01*cv.getTrackbarPos(min_s_text, settings_window)
 
 
 def getMaxS():
@@ -158,6 +195,31 @@ def getCountours():
     return cv.getTrackbarPos(contours_text, settings_window)
 
 
+scale_factor_text = "Scale factor"
+min_neighbors_text = "Minimum neighbors"
+min_size = "Minimum size "
+
+cv.createTrackbar(scale_factor_text, settings_window, 10, 100, nothing)
+cv.createTrackbar(min_neighbors_text, settings_window, 5, 30, nothing)
+cv.createTrackbar(min_size, settings_window, 5, 50, nothing)
+
+def getScaleFactor():
+    v = 0.1*cv.getTrackbarPos(scale_factor_text, settings_window)
+    if v < 1.1:
+        v = 1.05
+    print("v", v)
+    return v
+
+
+def getMinNeighbors():
+    return cv.getTrackbarPos(min_neighbors_text, settings_window)
+
+
+def getMinSize():
+    s = cv.getTrackbarPos(min_size, settings_window)
+    return (s,s)
+
+
 # Цвета
 RED = (0, 0, 255)
 BLUE = (255, 0, 0)
@@ -171,6 +233,7 @@ def makeRects(contours):
     for cnt in contours:
         rect = cv.minAreaRect(cnt)  # пытаемся вписать прямоугольник
         rects.append(rect)
+        # print("rect!!!",rect)
     return rects
 
 
@@ -190,7 +253,7 @@ def markAll(rects):
 
 def filterLight(сrect):
     rect = сrect[0]
-    if rect[1][0] < 100 and rect[2] % 10 == 0:
+    if rect[1][0] < 100 and (rect[2] % 10 == 0 or getKtype() != SQUARE):
         return [rect, BLUE]
     return сrect
 
@@ -213,10 +276,10 @@ def markGreen(crects):
         W /= len(rects)
         H /= len(rects)
 
-    minDel = 1 if getMinS() < 1 else getMinS()
-    maxDel = 1 if getMaxS() < 1 else getMaxS()
+    minDel = 1 if getMinS() < 0.1 else getMinS()
+    maxDel = 1 if getMaxS() < 0.1 else getMaxS()
 
-    s_min = W * H / minDel
+    s_min = W * H * minDel
     s_max = W * H * maxDel
 
     for crect in crects:
@@ -233,7 +296,7 @@ def markGreen(crects):
             continue
         s = crect[0][1][0] * crect[0][1][1]
 
-        if s > s_min and s < s_max and crect[0][2] % 10 == 0:
+        if s > s_min and s < s_max and (crect[0][2] % 10 == 0 or getKtype() != SQUARE):
             crect[1] = GREEN
 
     return crects
@@ -277,6 +340,38 @@ def save(crects, loadPath, savePath):
         crop_img = img[y:y+h, x:x+w]
         cv.imwrite(path, crop_img)
 
+        dataFile = open('Good.dat', 'a')
+        dataFile.write("Good/"+str(counter)+".png 1 0 0 " +
+                       str(x+w) + " " + str(y+h) + '\n')
+        dataFile.close()
+
+
+bad_counter = 0
+
+
+def saveBad(crects, loadPath, savePath):
+    global bad_counter
+    img = cv.imread(loadPath, 0)
+    for crect in crects:
+        color = crect[1]
+        if canShow(color) == False:
+            continue
+        bad_counter += 1
+        rect = crect[0]
+        box = cv.boxPoints(rect)  # поиск четырех вершин прямоугольника
+        box = np.int0(box)  # округление координат
+        x = int(rect[0][0])
+        y = int(rect[0][1])
+        w = int(rect[1][0])
+        h = int(rect[1][1])
+        path = "/home/artyom/labs/bauman/1/vkr/Bad/"+str(bad_counter)+".png"
+        crop_img = img[y:y+h, x:x+w]
+        cv.imwrite(path, crop_img)
+
+        dataFile = open('Bad.dat', 'a')
+        dataFile.write("Bad/"+str(bad_counter)+".png" + '\n')
+        dataFile.close()
+
 # cv.getTrackbarPos("kernel size", "settings"))
 
 
@@ -289,7 +384,7 @@ def rombKernel(ksize):
     arr = []
     if ksize % 2 != 1:
         ksize = ksize + 1
-   
+
     for i in range(1, ksize, 2):
         i = '0 ' * ((ksize-i)//2) + '1 ' * i + '0 ' * (ksize-i)
         i = i[:e]
@@ -339,6 +434,19 @@ def drawCountours(frame, contours0):
         cv.destroyWindow("countours")
 
 
+def drawCascade(img):
+    loooker = my_cascade.detectMultiScale(img, scaleFactor=getScaleFactor(),
+                                          minNeighbors=getMinNeighbors(),
+                                          minSize=getMinSize())
+    for (x, y, w, h) in loooker:
+        cv.rectangle(img, (x, y), (x+w, y+h), (255, 255, 0), 2)
+    # eyes = eye_cascade.detectMultiScale(img, 50, 50)
+    # for (x,y,w,h) in eyes:
+    #     cv.rectangle(img,(x,y),(x+w,y+h),(255,0,255),2)
+
+    cv.imshow('img', img)
+
+
 def saveMeta(settings_file):
     to_json = {json_minV: getMinBrightness(),
                json_maxV: getMaxBrightness(),
@@ -349,12 +457,55 @@ def saveMeta(settings_file):
                json_origin: getOrigin(),
                json_thresh: getThresh(),
                json_contours: getCountours(),
-               json_min_s: int(10*getMinS()),
+               json_min_s: int(100*getMinS()),
                json_max_s: int(10*getMaxS()),
                json_deviation: int(10*getDeviation()),
                json_ktype: getKtype()}
     f = open(settings_file, "w")
     f.write(json.dumps(to_json))
+
+
+def loadDefault():
+    cv.setTrackbarPos(v_min_text, settings_window, 0)
+    cv.setTrackbarPos(v_max_text, settings_window, 255)
+    cv.setTrackbarPos(k_size_text, settings_window, 5)
+    cv.setTrackbarPos(red_text, settings_window, 1)
+    cv.setTrackbarPos(blue_text, settings_window, 1)
+    cv.setTrackbarPos(green_text, settings_window, 1)
+    cv.setTrackbarPos(min_s_text, settings_window, 1)
+    cv.setTrackbarPos(max_s_text, settings_window, 100)
+    cv.setTrackbarPos(deviation_text, settings_window,
+                      100)
+    cv.setTrackbarPos(origin_text, settings_window, 0)
+    cv.setTrackbarPos(thresh_text, settings_window, 0)
+    cv.setTrackbarPos(contours_text, settings_window, 0)
+    cv.setTrackbarPos(ktype_text, settings_window, SQUARE)
+
+
+def getConfigFilename(configsPath, onlyfiles, index):
+    return configsPath + "/"+onlyfiles[index].split(".")[0]+".json"
+
+
+pathImage = ""
+newPathConfig = ""
+
+my_cascade = cv.CascadeClassifier('cascade.xml')
+# eye_cascade = cv.CascadeClassifier('haarcascade_eye.xml')
+
+
+def saveAndLoad(needSave, configsPath, onlyfiles, index):
+    global pathImage
+    global newPathConfig
+    if needSave:
+        saveMeta(newPathConfig)
+    pathImage = imagesPath + "/" + onlyfiles[index]
+    newPathConfig = getConfigFilename(configsPath, onlyfiles, index)
+
+    if os.path.exists(newPathConfig):
+        loadMeta(newPathConfig)
+    else:
+        loadDefault()
+    return pathImage
 
 
 def loadMeta(settings_file):
@@ -387,11 +538,7 @@ if __name__ == "__main__":
     onlyfiles = [f for f in listdir(imagesPath) if isfile(join(imagesPath, f))]
     index = 0
 
-    pathImage = imagesPath + "/" + onlyfiles[index]
-    pathConfig = configsPath + "/"+str(index)
-
-    if os.path.exists(pathConfig):
-        loadMeta(pathConfig)
+    pathImage = saveAndLoad(False, configsPath, onlyfiles, index)
 
     while True:
         frame = cv.imread(pathImage, 0)
@@ -413,12 +560,11 @@ if __name__ == "__main__":
         # blur = cv.blur(frame,(5,5))
         ksize = getKernelSize()
         kernel = usualKernel(ksize)
-        if getKtype() == 0:
+        if getKtype() == PLUS:
             kernel = krestKernel(ksize)
-        elif getKtype() == 2:
+        elif getKtype() == ROMB:
             kernel = rombKernel(ksize)
-        print("kernel")
-        print(kernel)
+
         img_erode = cv.erode(frame, kernel, iterations=2)
         # img_erode2 = cv.erode(frame, kernel1, iterations=2)
         # img_erode3 = cv.erode(frame, kernel2, iterations=2)
@@ -444,6 +590,9 @@ if __name__ == "__main__":
         new_img = cv.imread(hsvPath)
         # меняем цветовую модель с BGR на HSV
         hsv = cv.cvtColor(new_img, cv.COLOR_BGR2HSV)
+
+        drawCascade(hsv)
+
         thresh = cv.inRange(hsv, hsv_min, hsv_max)  # применяем цветовой фильтр
         drawThresh(thresh)
 
@@ -465,34 +614,29 @@ if __name__ == "__main__":
 
         if ch == 49:
             if index > 0:
-                saveMeta(pathConfig)
                 index -= 1
                 cv.destroyWindow(pathImage)
-                pathImage = imagesPath + "/" + onlyfiles[index]
-                pathConfig = configsPath + "/"+str(index)
-                if os.path.exists(pathConfig):
-                    loadMeta(pathConfig)
-
-        if ch == 50:
+                pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
+        elif ch == 50:
             if index < len(onlyfiles) - 1:
-                saveMeta(pathConfig)
                 index += 1
                 cv.destroyWindow(pathImage)
-                pathImage = imagesPath + "/" + onlyfiles[index]
-                pathConfig = configsPath + "/"+str(index)
-                if os.path.exists(pathConfig):
-                    loadMeta(pathConfig)
+                pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
+        # elif ch == 51:
+        #     if inc + getMinBrightness() - 1 > 0:
+        #         inc -= 1
+        # elif ch == 52:
+        #     if inc + getMinBrightness() + 1 < 255:
+        #         inc += 1
 
-        if ch == 51:
-            if inc + getMinBrightness() - 1 > 0:
-                inc -= 1
-
-        if ch == 52:
-            if inc + getMinBrightness() + 1 < 255:
-                inc += 1
-
-        rects = makeRects(contours0)
+        if getKtype() != RANDOM:
+            rects = makeRects(contours0)
+            randomApplied = 0
+        else:
+            rects = makeRectsRandom(pathImage)
+            randomApplied = 1
         boxes = makeBoxes(rects)
+
         crects = markAll(rects)
         crects = markBlue(crects)
         crects = markGreen(crects)
@@ -501,9 +645,11 @@ if __name__ == "__main__":
 
         if ch == 13:
             save(crects, pathImage, savingPath)
+        elif ch == 8:
+            saveBad(crects, pathImage, savingPath)
 
         if ch == 27:
             break
 
-    saveMeta(pathConfig)
+    saveMeta(newPathConfig)
     cv.destroyAllWindows()
