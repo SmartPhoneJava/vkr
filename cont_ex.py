@@ -324,6 +324,7 @@ counter = 0
 def save(crects, loadPath, savePath):
     global counter
     img = cv.imread(loadPath, 0)
+    height, width = img.shape[:2]
     for crect in crects:
         color = crect[1]
         if canShow(color) == False:
@@ -336,8 +337,13 @@ def save(crects, loadPath, savePath):
         y = int(rect[0][1])
         w = int(rect[1][0])
         h = int(rect[1][1])
+        x = int(x - w/2)
+        y = int(y - h/2)
+        print("x,y,w,h", x,y,w,h)
+        print("box", box)
         path = "/home/artyom/labs/bauman/1/vkr/Good/"+str(counter)+".png"
         crop_img = img[y:y+h, x:x+w]
+        # cv.imshow(path, crop_img)  # вывод обработанного кадра в окно
         cv.imwrite(path, crop_img)
 
         dataFile = open('Good.dat', 'a')
@@ -445,6 +451,7 @@ def drawCascade(img):
     #     cv.rectangle(img,(x,y),(x+w,y+h),(255,0,255),2)
 
     cv.imshow('img', img)
+    print("s")
 
 
 def saveMeta(settings_file):
@@ -489,7 +496,7 @@ def getConfigFilename(configsPath, onlyfiles, index):
 pathImage = ""
 newPathConfig = ""
 
-my_cascade = cv.CascadeClassifier('cascade.xml')
+my_cascade = cv.CascadeClassifier('cascade2.xml')
 # eye_cascade = cv.CascadeClassifier('haarcascade_eye.xml')
 
 
@@ -591,7 +598,7 @@ if __name__ == "__main__":
         # меняем цветовую модель с BGR на HSV
         hsv = cv.cvtColor(new_img, cv.COLOR_BGR2HSV)
 
-        drawCascade(hsv)
+        drawCascade(frame)
 
         thresh = cv.inRange(hsv, hsv_min, hsv_max)  # применяем цветовой фильтр
         drawThresh(thresh)
