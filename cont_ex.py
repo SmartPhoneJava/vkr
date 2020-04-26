@@ -17,8 +17,11 @@ import json
 from os import listdir
 from os.path import isfile, join
 
-settings_window = "settings"
+settings_window = "findContours settings"
 cv.namedWindow(settings_window, cv.WINDOW_AUTOSIZE)  # создаем окно настроек
+
+cascade_settings_window = "haar cascade settings"
+cv.namedWindow(cascade_settings_window, cv.WINDOW_AUTOSIZE)  # создаем окно настроек
 
 # прибавка к минимальной яркости - вводится с помощью клавиш 3,4
 inc = 0
@@ -108,10 +111,8 @@ def makeRectsRandom(path):
 
 # Показывать все прямоугольники(красный цвет)
 json_showR = 'red_visible'
-
 # Показывать прямоугольники с наибольшим количеством фильтров(зеленый цвет)
 json_showG = 'green_visible'
-
 # Показывать основные прямоугольники(синий цвет)
 json_showB = 'blue_visible'
 
@@ -199,25 +200,66 @@ scale_factor_text = "Scale factor"
 min_neighbors_text = "Minimum neighbors"
 min_size = "Minimum size "
 
-cv.createTrackbar(scale_factor_text, settings_window, 10, 100, nothing)
-cv.createTrackbar(min_neighbors_text, settings_window, 5, 30, nothing)
-cv.createTrackbar(min_size, settings_window, 5, 50, nothing)
+cv.createTrackbar(scale_factor_text, cascade_settings_window, 10, 100, nothing)
+cv.createTrackbar(min_neighbors_text, cascade_settings_window, 5, 30, nothing)
+cv.createTrackbar(min_size, cascade_settings_window, 5, 50, nothing)
 
 def getScaleFactor():
-    v = 0.1*cv.getTrackbarPos(scale_factor_text, settings_window)
+    v = 0.1*cv.getTrackbarPos(scale_factor_text, cascade_settings_window)
     if v < 1.1:
         v = 1.05
-    print("v", v)
+    # print("v", v)
     return v
 
 
 def getMinNeighbors():
-    return cv.getTrackbarPos(min_neighbors_text, settings_window)
+    return cv.getTrackbarPos(min_neighbors_text, cascade_settings_window)
 
 
 def getMinSize():
-    s = cv.getTrackbarPos(min_size, settings_window)
+    s = cv.getTrackbarPos(min_size, cascade_settings_window)
     return (s,s)
+
+'''
+# Показывать все прямоугольники(рыжий цвет)
+json_showO = 'orange_visible'
+# Показывать прямоугольники с наибольшим количеством фильтров(зеленый цвет)
+json_showW = 'white_visible'
+# Показывать основные прямоугольники(синий цвет)
+json_showB = 'yellow_visible'
+
+red_text = "Show all(red)"
+blue_text = "Show filtered(blue)"
+green_text = "Show hard filtered(green)"
+
+cv.createTrackbar(red_text, settings_window, loaded[json_showR], 1, nothing)
+cv.createTrackbar(blue_text, settings_window, loaded[json_showB], 1, nothing)
+cv.createTrackbar(green_text, settings_window, loaded[json_showG], 1, nothing)
+
+
+def getShowRed():
+    return cv.getTrackbarPos(red_text, settings_window)
+
+
+def getShowBlue():
+    return cv.getTrackbarPos(blue_text, settings_window)
+
+
+def getShowGreen():
+    return cv.getTrackbarPos(green_text, settings_window)
+'''
+
+# json_min_s = 'minS'
+# json_max_s = 'maxS'
+
+# min_s_text = "minimum square(* x0.01)"
+# max_s_text = "maximum square(* x0.1)"
+
+# cv.createTrackbar(min_s_text,
+#                   settings_window, loaded[json_min_s], 2000, nothing)
+# cv.createTrackbar(max_s_text,
+#                   settings_window, loaded[json_max_s], 300, nothing)
+
 
 
 # Цвета
@@ -344,6 +386,9 @@ def save(crects, loadPath, savePath):
         path = "/home/artyom/labs/bauman/1/vkr/Good/"+str(counter)+".png"
         crop_img = img[y:y+h, x:x+w]
         # cv.imshow(path, crop_img)  # вывод обработанного кадра в окно
+        if len(crop_img) == 0:
+            continue
+        
         cv.imwrite(path, crop_img)
 
         dataFile = open('Good.dat', 'a')
@@ -446,11 +491,15 @@ def drawCascade(img):
                                           minSize=getMinSize())
     for (x, y, w, h) in loooker:
         cv.rectangle(img, (x, y), (x+w, y+h), (255, 255, 0), 2)
+        print("lol")
     # eyes = eye_cascade.detectMultiScale(img, 50, 50)
     # for (x,y,w,h) in eyes:
     #     cv.rectangle(img,(x,y),(x+w,y+h),(255,0,255),2)
 
-    cv.imshow('img', img)
+    if len(img) > 0:
+        cv.imshow('img', img)
+    else: 
+        print("no image")
     print("s")
 
 
@@ -505,6 +554,7 @@ def saveAndLoad(needSave, configsPath, onlyfiles, index):
     global newPathConfig
     if needSave:
         saveMeta(newPathConfig)
+    print("path", imagesPath + "/" + onlyfiles[index])
     pathImage = imagesPath + "/" + onlyfiles[index]
     newPathConfig = getConfigFilename(configsPath, onlyfiles, index)
 
@@ -619,6 +669,13 @@ if __name__ == "__main__":
         ch = cv.waitKey(5)
         print("ch", ch)  # 13 81 83
 
+        if ch == 51:
+            if index < len(onlyfiles) - 1:
+                save(crects, pathImage, savingPath)
+                print("index", index, len(onlyfiles))
+                index += 1
+                cv.destroyWindow(pathImage)
+                pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
         if ch == 49:
             if index > 0:
                 index -= 1
@@ -626,6 +683,7 @@ if __name__ == "__main__":
                 pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
         elif ch == 50:
             if index < len(onlyfiles) - 1:
+                print("index", index, len(onlyfiles))
                 index += 1
                 cv.destroyWindow(pathImage)
                 pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
@@ -650,6 +708,7 @@ if __name__ == "__main__":
         rimg = cv.imread(pathImage)
         draw(pathImage, rimg, boxes, crects)
 
+        
         if ch == 13:
             save(crects, pathImage, savingPath)
         elif ch == 8:

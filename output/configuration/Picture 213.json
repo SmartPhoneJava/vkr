@@ -1,1 +1,1 @@
-{"minV": 53, "maxV": 91, "ksize": 7, "blue_visible": 1, "green_visible": 1, "red_visible": 1, "origin_show": 0, "thresh_show": 0, "contours_show": 0, "minS": 992, "maxS": 268, "deviation": 50, "ktype": 1}
+{"minV": 71, "maxV": 249, "ksize": 10, "blue_visible": 0, "green_visible": 1, "red_visible": 0, "origin_show": 0, "thresh_show": 0, "contours_show": 0, "minS": 364, "maxS": 71, "deviation": 50, "ktype": 1}
