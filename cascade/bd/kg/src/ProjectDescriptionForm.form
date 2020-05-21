@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ProjectDescriptionForm">
+  <grid id="27dc6" binding="root" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="535" height="1044"/>
+    </constraints>
+    <properties>
+      <background color="-723466"/>
+    </properties>
+    <border type="line" title="Общая информация">
+      <color color="-15124897"/>
+    </border>
+    <children>
+      <grid id="67cdd" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="41d86" class="javax.swing.JButton" binding="closeButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <background color="-3662051"/>
+              <foreground color="-723466"/>
+              <hideActionText value="false"/>
+              <text value="Закрыть проект"/>
+            </properties>
+          </component>
+          <component id="17c97" class="javax.swing.JButton" binding="saveButton">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <background color="-15047250"/>
+              <foreground color="-723466"/>
+              <text value="Сохранить"/>
+            </properties>
+          </component>
+          <component id="70044" class="javax.swing.JLabel" binding="errorField">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="12" style="1"/>
+              <foreground color="-3662051"/>
+              <text value="Ошибка подключения, попробуйте еще раз"/>
+              <toolTipText value="сообщение об ошибке"/>
+            </properties>
+          </component>
+          <component id="83fe6" class="javax.swing.JLabel" binding="loaderLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="12" style="1"/>
+              <foreground color="-14200674"/>
+              <text value="Загрузка"/>
+              <toolTipText value="сообщение об ошибке"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="75451" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="fff89" class="javax.swing.JTextField" binding="nameLabel">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="20" style="1"/>
+              <foreground color="-15047250"/>
+              <minimumSize width="403" height="38"/>
+              <preferredSize width="403" height="38"/>
+              <text value="Имя сего проекта"/>
+            </properties>
+          </component>
+          <component id="aed4d" class="javax.swing.JButton" binding="backButton">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-15047250"/>
+              <foreground color="-723466"/>
+              <horizontalAlignment value="0"/>
+              <text value="назад"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="a3daf" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="c10fe" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <text value="Статус:"/>
+            </properties>
+          </component>
+          <component id="c543b" class="javax.swing.JRadioButton" binding="publicRB">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <text value="Публичный"/>
+            </properties>
+          </component>
+          <component id="9dc9a" class="javax.swing.JRadioButton" binding="privateRB">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <text value="Частный"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="3431" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="10.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="line" title="Описание">
+          <color color="-3748654"/>
+        </border>
+        <children>
+          <component id="e4b4a" class="javax.swing.JEditorPane" binding="descriptionLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="14"/>
+              <text value="вавав"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="5cb0e" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="3ee98" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <foreground color="-9276814"/>
+              <text value="Дата создания"/>
+            </properties>
+          </component>
+          <component id="b09ef" class="javax.swing.JLabel" binding="addLabel">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <text value="18.04.2007"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="d018c" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="5cb9b" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <foreground color="-9276814"/>
+              <text value="Обновлено:"/>
+            </properties>
+          </component>
+          <component id="6e016" class="javax.swing.JLabel" binding="editLabel">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font size="16" style="0"/>
+              <text value="меньше минуты назад"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

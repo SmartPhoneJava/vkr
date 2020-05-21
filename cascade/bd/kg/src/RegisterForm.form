@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="RegisterForm">
+  <grid id="27dc6" binding="root" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="822" height="412"/>
+    </constraints>
+    <properties>
+      <background color="-723466"/>
+      <minimumSize width="286" height="274"/>
+      <preferredSize width="349" height="274"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="3ebea" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-723466"/>
+        </properties>
+        <border type="line">
+          <color color="-15124897"/>
+        </border>
+        <children>
+          <component id="98bb6" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <font name="Droid Sans Mono" size="26" style="1"/>
+              <foreground color="-15047250"/>
+              <text value="Регистрация"/>
+            </properties>
+          </component>
+          <grid id="3a2b3" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="14" style="0"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b3e46" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="1"/>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <maximumSize width="250" height="20"/>
+                  <minimumSize width="250" height="20"/>
+                  <opaque value="false"/>
+                  <preferredSize width="250" height="20"/>
+                  <text value="&lt;html&gt; Имя пользователя&lt;font color='#C81F1D'&gt;*&lt;/font&gt;:&lt;/html&gt;"/>
+                  <toolTipText value="Логин от"/>
+                </properties>
+              </component>
+              <component id="924b" class="javax.swing.JTextField" binding="name">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <focusCycleRoot value="false"/>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <foreground color="-13948102"/>
+                  <minimumSize width="250" height="25"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="3aa5" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="14" style="0"/>
+              <foreground color="-16777216"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="df1ef" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0" ipadx="1" ipady="1"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="1"/>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <maximumSize width="250" height="20"/>
+                  <minimumSize width="250" height="20"/>
+                  <preferredSize width="250" height="20"/>
+                  <text value="&lt;html&gt; Пароль&lt;font color='#C81F1D'&gt;*&lt;/font&gt;:&lt;/html&gt;"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+              <component id="213f2" class="javax.swing.JPasswordField" binding="password">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <foreground color="-13948102"/>
+                  <minimumSize width="250" height="30"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="65a6a" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="14" style="0"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="5b4fc" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <maximumSize width="200" height="17"/>
+                  <minimumSize width="250" height="30"/>
+                  <preferredSize width="250" height="20"/>
+                  <text value="&lt;html&gt; Повторите пароль&lt;font color='#C81F1D'&gt;*&lt;/font&gt;:&lt;/html&gt;"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+              <component id="7e871" class="javax.swing.JPasswordField" binding="repeatPassword">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <foreground color="-13948102"/>
+                  <opaque value="false"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="780e9" class="javax.swing.JLabel" binding="label1">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="14" style="0"/>
+              <foreground color="-9276814"/>
+              <horizontalAlignment value="0"/>
+              <minimumSize width="800" height="17"/>
+              <preferredSize width="800" height="17"/>
+              <text value="&lt;html&gt; Поля помеченные звёздочкой(&lt;font color='#C81F1D'&gt;*&lt;/font&gt;) обязательны к заполнению&lt;/html&gt;"/>
+            </properties>
+          </component>
+          <grid id="5db71" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="5" bottom="0" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="2b397" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <maximumSize width="200" height="17"/>
+                  <minimumSize width="200" height="17"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value="Электронная почта:"/>
+                  <toolTipText value="Логин от"/>
+                </properties>
+              </component>
+              <component id="f2a9e" class="javax.swing.JTextField" binding="email">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <focusCycleRoot value="false"/>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <foreground color="-13948102"/>
+                  <minimumSize width="250" height="30"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="6db8f" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="5" bottom="0" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="23af9" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <font name="Droid Sans Mono" size="14" style="1"/>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <maximumSize width="200" height="17"/>
+                  <minimumSize width="200" height="17"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value="Контакты:"/>
+                  <toolTipText value="Логин от"/>
+                </properties>
+              </component>
+              <component id="aef30" class="javax.swing.JTextField" binding="contacts">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                  <focusCycleRoot value="false"/>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <foreground color="-16777216"/>
+                  <minimumSize width="250" height="30"/>
+                  <preferredSize width="250" height="30"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="70382" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="264e" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="3d81d" class="javax.swing.JButton" binding="register">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <autoscrolls value="false"/>
+                  <background color="-12862922"/>
+                  <borderPainted value="true"/>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <foreground color="-723466"/>
+                  <horizontalAlignment value="4"/>
+                  <horizontalTextPosition value="4"/>
+                  <selected value="false"/>
+                  <text value="Зарегистрироваться"/>
+                </properties>
+              </component>
+              <component id="b8ea0" class="javax.swing.JButton" binding="cancel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-15047250"/>
+                  <enabled value="true"/>
+                  <font size="14" style="0"/>
+                  <foreground color="-723466"/>
+                  <text value="Отмена"/>
+                </properties>
+              </component>
+              <grid id="c0b3c" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-723466"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+          <component id="88c76" class="javax.swing.JLabel" binding="errorField">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="12" style="1"/>
+              <foreground color="-3662051"/>
+              <text value="Ошибка подключения, попробуйте еще раз"/>
+              <toolTipText value="сообщение об ошибке"/>
+            </properties>
+          </component>
+          <component id="69cbe" class="javax.swing.JLabel" binding="loadingLabel">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="5" left="5" bottom="5" right="5" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-723466"/>
+              <font name="Droid Sans Mono" size="12" style="1"/>
+              <foreground color="-14200674"/>
+              <text value="Загрузка"/>
+              <toolTipText value="сообщение об ошибке"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

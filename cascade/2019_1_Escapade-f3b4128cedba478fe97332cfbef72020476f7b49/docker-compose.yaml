@@ -1,0 +1,291 @@
+version: '3'
+services:
+
+  # traefik:
+  #   image: traefik 
+  #   command: 
+  #     --api --docker --consul --consul.endpoint=consul:8500 # Enables the web UI and tells Traefik to listen to docker
+   
+  #   ports:
+  #     - "80:80"     # The HTTP port
+  #     - "8079:8080" # The Web UI (enabled by --api)
+  #   #network_mode: "host"
+  #   #hostname: localhost
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+
+  pg:
+    build:
+      dockerfile: Dockerfile
+      context: ./extra/postgresql/main/
+    ports:
+      - "5429:5432"    
+
+  pg-auth:
+    image: postgres:11.2-alpine
+    environment:
+      POSTGRES_USER: 'auth' 
+      POSTGRES_PASSWORD: 'auth'
+      POSTGRES_DB: 'authbase'
+    ports:
+      - "5431:5432"    
+
+  pg-ery:
+    build:
+      dockerfile: Dockerfile
+      context: ./extra/postgresql/ery/
+    ports:
+      - "5430:5432"   
+
+  # api:
+  #   build:
+  #     dockerfile: ./cmd/services/api/Dockerfile
+  #     context: .
+  #   depends_on:
+  #     - "pg"
+  #     - "auth"
+  #   ports:
+  #     - 3008:3001
+  #   environment:
+  #     CONSUL_ADDRESS: consul
+  #   #environment:
+  #    # - DATABASE_URL=postgres://docker:docker@pg:5432/docker?sslmode=disable
+  #    # - AUTHSERVICE_URL=auth:3333
+  #    # - PORT_API_URL=:3001
+  #   command: /bin/sh -c "./wait-for-it.sh pg:5432 && ./bin/api cmd/services/api/api.json internal/photo/photo.json secret.json 3001 8500"
+  #   logging:
+  #     options:
+  #       max-size: 10m
+
+  ery:
+    build:
+      dockerfile: ./cmd/services/ery/Dockerfile
+      context: .
+    depends_on:
+      - "pg-ery"
+      - "auth"
+    ports:
+      - 3100:3100
+    environment:
+      CONSUL_ADDRESS: consul
+    #environment:
+     # - DATABASE_URL=postgres://docker:docker@pg:5432/docker?sslmode=disable
+     # - AUTHSERVICE_URL=auth:3333
+     # - PORT_API_URL=:3001
+    command: /bin/sh -c "go run cmd/services/ery/main.go cmd/services/ery/ery.json internal/photo/eryphoto.json cmd/services/ery/secret2.json 3100 8500"
+    volumes:
+    - ./:/escapade
+    logging:
+      options:
+        max-size: 10m
+
+  # chat1:
+  #   container_name: chat1
+  #   build:
+  #     dockerfile: ./cmd/services/chat/Dockerfile
+  #     context: .
+  #   depends_on:
+  #     - "pg"
+  #   environment:
+  #     - CONSUL_ADDRESS=consul
+  #   ports:
+  #     - 3060:3060
+  #   command: /bin/sh -c "./wait-for-it.sh pg:5432 && ./bin/chat cmd/services/chat/chat.json 3060 8500"
+  #   logging:
+  #     options:
+  #       max-size: 10m
+
+  auth:
+    build:
+      dockerfile: ./cmd/services/auth/Dockerfile
+      context: .
+    depends_on:
+      - "pg"
+      - "pg-auth"
+    ports:
+      - 3003:3003
+    environment:
+      - CONSUL_ADDRESS=consul
+    command: /bin/sh -c " ./bin/auth cmd/services/auth/auth.json 3003 8500 2345"
+    logging:
+      options:
+        max-size: 10m
+        
+  # loader:
+  #   build:
+  #     dockerfile: ./cmd/services/configLoader/Dockerfile
+  #     context: .
+  #   depends_on:
+  #     - "consul"
+  #     - "vault"
+  #   ports:
+  #     - 3007:3007
+  #   command: /bin/sh -c "./bin/loader config.json"
+  #   networks: 
+  #     - backend
+  #   logging:
+  #     options:
+  #       max-size: 10m
+
+  # game:
+  #   build:
+  #     dockerfile: ./cmd/services/game/Dockerfile
+  #     context: .
+  #   depends_on:
+  #      - "pg"
+  #   ports:
+  #     - 3002:3002
+  #   environment:
+  #     - CONSUL_ADDRESS=consul
+  #     - AUTHSERVICE_URL=auth:3333
+  #     - PORT_GAME_URL=:3002
+  #   command: /bin/sh -c "./bin/game cmd/services/game/game.json internal/photo/photo.json secret.json internal/constants/field.json internal/constants/room.json 3002 8500"
+
+  # history:
+  #   build:
+  #     dockerfile: ./history/Dockerfile
+  #     context: .
+  #   depends_on:
+  #     - "pg"
+  #     - "auth"
+  #   ports:
+  #     - 3004:3004
+  #   environment:
+  #     - CONSUL_ADDRESS=consul
+  #     - DATABASE_URL=postgres://docker:docker@pg:5432/docker?sslmode=disable
+  #     - AUTHSERVICE_URL=auth:3333
+  #     - PORT_HISTORY_URL=:3004
+  #   command: /bin/sh -c "./bin/history"
+
+  # prometheus:
+  #   build:
+  #     #dockerfile: ./Dockerfile
+  #     context: ./extra/prometheus
+  #   image: prom/prometheus:latest
+  #   container_name: prometheus
+  #   # volumes:
+  #   #   - './prometheus/:/etc/prometheus/'
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #   ports:
+  #     - "9090:9090"
+    
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: grafana
+  #   environment:
+  #    - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+  #    - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+  #    - GF_USERS_ALLOW_SIGN_UP=false
+  #   restart: unless-stopped
+  #   ports:
+  #     - 3000:3000
+
+  # consul:
+  #   container_name: consul_server
+  #   #hostname: localhost
+  #   build:
+  #     context: ./extra/consul
+  #     dockerfile: progrium/Dockerfile
+  #   ports:
+  #     - 8500:8500
+  #   command: -server -bootstrap -bind 0.0.0.0 -client 0.0.0.0 -ui-dir /ui -config-file=/consul/config/bootstrap/consul-config.json
+  #   volumes:
+  #     - ./extra/consul/config/client/consul-config.json:/consul/config/config.json
+  #   networks: 
+  #     - backend
+
+  # consul-client:
+  #   container_name: consul_agent
+  #   build:
+  #     context: ./extra/consul
+  #     dockerfile: Dockerfile
+  #   command: agent -join consul -config-file=/consul/config/client/consul-config.json
+  #   ports:
+  #     - 8499:8500
+  #   volumes:
+  #     - ./extra/consul/config/client/consul-config.json:/consul/config/config.json
+  #   depends_on:
+  #     - consul
+  #   networks: 
+  #     - backend
+  #   links:
+  #     - "consul:consul-server"
+
+  # vault:
+  #   build:
+  #     context: ./extra/vault
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8200:8200
+  #   volumes:
+  #     - ./extra/vault/config:/vault/config
+  #     - ./extra/vault/policies:/vault/policies
+  #     - ./extra/vault/data:/vault/data
+  #     - ./extra/vault/logs:/vault/logs
+  #   environment:
+  #     - VAULT_ADDR=http://127.0.0.1:8200
+  #   command: server -config=config/vault-config.json
+  #   cap_add:
+  #     - IPC_LOCK
+  #   depends_on:
+  #     - consul
+  #   networks: 
+  #     - backend
+
+networks:
+  backend:
+    driver: bridge
+
+  # consul:
+  #   container_name: consul_server
+  #   image: progrium/consul
+  #   hostname: localhost
+  #   command: -server -bootstrap -log-level debug -ui-dir /ui
+  #   ports:
+  #     - 8500:8500
+
+  # consul-client:
+  #   container_name: consul_agent
+  #   image: progrium/consul
+  #   hostname: localhost1
+  #   command:  agent -join 172.18.0.2 -log-level debug -ui-dir /ui
+  #   ports:
+  #     - 8498:8500
+  #   depends_on:
+  #     - consul
+
+     # docker run -d --restart always -p 8300:8300 -p 8301:8301 -p 8301:8301/udp -p 8302:8302/udp -p 8302:8302 -p 8400:8400 -p 8500:8500 -p 53:53/udp -h server1 progrium/consul -server -bootstrap -ui-dir /ui -advertise $(dm ip nb-consul)
+
+  # nginx:
+
+  #  build: .
+  #  restart: always
+
+  #  ports:
+  #    - "80:80"
+
+  #  depends_on:
+  #    - api
+  #    - game
+  
+  # nodeexporter:
+  #   image: prom/node-exporter:latest
+  #   container_name: nodeexporter
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #     - /:/rootfs:ro
+  #   command:
+  #     - '--path.procfs=/host/proc'
+  #     - '--path.sysfs=/host/sys'
+  #     - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+  #   restart: unless-stopped
+  #   deploy:
+  #     mode: global
+  #   ports:
+  #     - "9000:9000"
+    
+
+

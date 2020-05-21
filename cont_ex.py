@@ -92,14 +92,19 @@ def makeRectsRandom(path):
 
     img = cv.imread(path)
     random.seed(datetime.now())
-    amount = random.randint(10, 20)
+    amount = random.randint(20, 50)
     rects = []
-    s = len(img)
+
+    print("random")
+
+    width = img.shape[1]
+    height = img.shape[0]
+    
     for i in range(amount):
-        x1 = random.randint(100, s-100)
-        y1 = random.randint(100, s-100)
-        x2 = random.randint(15, 30)
-        y2 = random.randint(15, 30)
+        x1 = random.randint(10, width-30)
+        y1 = random.randint(10, height-30)
+        x2 = random.randint(15, 22)
+        y2 = random.randint(15, 22)
         rect = ((x1, y1), (x2, y2), 0)
         # rect = cv.rectangle(img, (10, 10), (20, 20), (0, 255, 0), 3)
         # print("rect",rect)
@@ -486,20 +491,20 @@ def drawCountours(frame, contours0):
 
 
 def drawCascade(img):
-    loooker = my_cascade.detectMultiScale(img, scaleFactor=getScaleFactor(),
-                                          minNeighbors=getMinNeighbors(),
-                                          minSize=getMinSize())
-    for (x, y, w, h) in loooker:
-        cv.rectangle(img, (x, y), (x+w, y+h), (255, 255, 0), 2)
-        print("lol")
-    # eyes = eye_cascade.detectMultiScale(img, 50, 50)
-    # for (x,y,w,h) in eyes:
-    #     cv.rectangle(img,(x,y),(x+w,y+h),(255,0,255),2)
+    # loooker = my_cascade.detectMultiScale(img, scaleFactor=getScaleFactor(),
+    #                                       minNeighbors=getMinNeighbors(),
+    #                                       minSize=getMinSize())
+    # for (x, y, w, h) in loooker:
+    #     cv.rectangle(img, (x, y), (x+w, y+h), (255, 255, 0), 2)
+    #     print("lol")
+    # # eyes = eye_cascade.detectMultiScale(img, 50, 50)
+    # # for (x,y,w,h) in eyes:
+    # #     cv.rectangle(img,(x,y),(x+w,y+h),(255,0,255),2)
 
-    if len(img) > 0:
-        cv.imshow('img', img)
-    else: 
-        print("no image")
+    # if len(img) > 0:
+    #     cv.imshow('img', img)
+    # else: 
+    #     print("no image")
     print("s")
 
 
@@ -671,6 +676,7 @@ if __name__ == "__main__":
 
         if ch == 51:
             if index < len(onlyfiles) - 1:
+                randomApplied = 0
                 save(crects, pathImage, savingPath)
                 print("index", index, len(onlyfiles))
                 index += 1
@@ -678,6 +684,7 @@ if __name__ == "__main__":
                 pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
         if ch == 49:
             if index > 0:
+                randomApplied = 0
                 index -= 1
                 cv.destroyWindow(pathImage)
                 pathImage = saveAndLoad(True, configsPath, onlyfiles, index)
